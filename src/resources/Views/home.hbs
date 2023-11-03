@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="row">
+    <div style="display: flex; flex-wrap: wrap; ">
+      {{#each courses}}
+      <div class="card mb-3" style="width: 18rem; margin-left: 8px;
+    margin-right: 8px;">
+        <a href="/courses/{{this.slug}}">
+          <img src="{{this.image}}" class="card-img-top image" alt="Course Image" />
+        </a>
+
+        <div class="card-body">
+          <a href="/courses/{{this.slug}}">
+            <h5 class="card-title">{{this.name}}</h5>
+          </a>
+          <p class="card-text">{{this.description}}</p>
+          <a href="/courses/{{this.slug}}" class="btn btn-primary">Buy</a>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+</div>

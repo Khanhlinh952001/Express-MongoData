@@ -1,0 +1,141 @@
+<div class="mt-4">
+  <div>
+    <h1>Trash Data</h1>
+    <a href="/me/stored/courses">My data</a>
+  </div>
+  
+  <table class="table mt-4">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Level</th>
+        <th scope="col">Create Up</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each courses}}
+        <tr>
+          <!-- Hiển thị số thứ tự của hàng -->
+          <th scope="row">{{@index}}</th>
+          <!-- Hiển thị tên -->
+          <td>{{this.name}}</td>
+          <!-- Hiển thị cấp độ -->
+          <td>{{this.level}}</td>
+          <!-- Hiển thị ngày tạo -->
+          <td>{{this.createAt}}</td>
+          <td>
+            <a  class="btn btn-warning btn-restore" data-bs-toggle="modal" data-id="{{this._id}}" data-bs-target="#reStore" href="">
+              Khôi phục
+            </a>
+            <a class="btn btn-danger" data-bs-toggle="modal" data-id="{{this._id}}" data-bs-target="#exampleModal" href="/courses/{{this._id}}/delete">
+              Delete
+            </a>
+          </td>
+        </tr>
+        {{else}}
+        <tr>
+          <td colspan="5" class="text-center"> 
+            Not Data
+            <a href="/courses/create">Add data</a>
+            </td>
+          
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+
+<!-- Xác nhận Xóa Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <!-- Tiêu đề của modal xác nhận xóa -->
+        <h5 class="modal-title" id="exampleModalLabel">Xóa dữ liệu này</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Nội dung xác nhận xóa -->
+        Xóa dữ liệu này
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <!-- Nút Xóa với id "deleteButton" -->
+        <button type="button" class="btn btn-primary" id="deleteButton">Xóa</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Xác nhận  restore -->
+<div class="modal fade" id="reStore" tabindex="-1" aria-labelledby="reStore" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <!-- Tiêu đề của modal xác nhận xóa -->
+        <h5 class="modal-title" id="reStore">reStore</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Nội dung xác nhận xóa -->
+        Restore
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <!-- Nút Xóa với id "deleteButton" -->
+        <button type="button" class="btn btn-primary" id="restoreButton">Khoi phuc</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Form ẩn để gửi yêu cầu xóa -->
+<form method="POST" name="delete"></form>
+<form method="POST" name="restore"></form>
+<script>
+  const exampleModal = document.getElementById('exampleModal');
+  const reStoreModal = document.getElementById('reStore');
+
+  const deleteForm = document.forms['delete'];
+  const restoreForm = document.forms['restore'];
+
+  if (exampleModal) {
+    exampleModal.addEventListener('show.bs.modal', (event) => {
+      const button = event.relatedTarget;
+      const id = button.getAttribute('data-id');
+
+      const deleteButton = document.getElementById('deleteButton');
+      deleteButton.setAttribute('data-id', id);
+    });
+
+    exampleModal.addEventListener('click', (event) => {
+      if (event.target.id === 'deleteButton') {
+        const id = event.target.getAttribute('data-id');
+        deleteForm.action = '/courses/' + id + '/forceDestroy?_method=DELETE'; // Update the action URL
+        deleteForm.submit();
+      }
+    });
+  }
+
+  if (reStoreModal) {
+    reStoreModal.addEventListener('show.bs.modal', (event) => {
+      const button = event.relatedTarget;
+      const id = button.getAttribute('data-id');
+
+      const restoreButton = document.getElementById('restoreButton');
+      restoreButton.setAttribute('data-id', id);
+    });
+
+    reStoreModal.addEventListener('click', (event) => {
+      if (event.target.id === 'restoreButton') {
+        const id = event.target.getAttribute('data-id');
+        restoreForm.action = '/courses/' + id + '/restore?_method=PATCH'; // Update the action URL
+        restoreForm.submit();
+      }
+    });
+  }
+</script>

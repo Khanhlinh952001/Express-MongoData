@@ -1,0 +1,31 @@
+<div class="container">
+  <h3>My Data</h3>
+  <form method="POST" action="/courses/{{course._id}}?_method=PUT">
+    <div class="mb-3">
+      <div class="form-group">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" name="name" value={{course.name}} id="name" class="form-control" />
+      </div>
+
+      <div class="form-group">
+        <label for="description" class="form-label">Description</label>
+        <input type="text" name="description" value={{course.description}} id="description" class="form-control" />
+      </div>
+
+      <div class="form-group">
+
+        <label for="image" class="form-label">
+          
+          Image <img src={{course.image}} style="width: 40px; height:40px" alt=""></label>
+        <input type="text" value={{this.image}} name="image" id="image" class="form-control" />
+      </div>
+
+      <div class="form-group">
+        <label for="level" class="form-label">Level</label>
+        <input type="text" name="level" value={{this.level}} id="level" class="form-control" />
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Data</button>
+  </form>
+</div>

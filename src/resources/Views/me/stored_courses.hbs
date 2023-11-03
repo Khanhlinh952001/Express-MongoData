@@ -1,0 +1,108 @@
+<div class="mt-4">
+  <div>
+    <h1>My Data</h1>
+    <a href="/me/trash/courses">Trash</a>
+  </div>
+  
+  <table class="table mt-4">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Level</th>
+        <th scope="col">Create Up</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each courses}}
+        <tr>
+          <!-- Hiển thị số thứ tự của hàng -->
+          <th scope="row">{{@index}}</th>
+          <!-- Hiển thị tên -->
+          <td>{{this.name}}</td>
+          <!-- Hiển thị cấp độ -->
+          <td>{{this.level}}</td>
+          <!-- Hiển thị ngày tạo -->
+          <td>{{this.createAt}}</td>
+          <td>
+            <a class="btn btn-warning" href="/courses/{{this._id}}/edit">
+              Sửa
+            </a>
+            <a class="btn btn-danger" data-bs-toggle="modal" data-id="{{this._id}}" data-bs-target="#exampleModal" href="/courses/{{this._id}}/delete">
+              Xóa
+            </a>
+          </td>
+        </tr>
+        {{else}}
+        <tr>
+          <td colspan="5" class="text-center"> 
+            Not Data
+            <a href="/courses/create">Add date</a>
+            </td>
+          
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+
+<!-- Xác nhận Xóa Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <!-- Tiêu đề của modal xác nhận xóa -->
+        <h5 class="modal-title" id="exampleModalLabel">Xóa dữ liệu này</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Nội dung xác nhận xóa -->
+        Xóa dữ liệu này
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <!-- Nút Xóa với id "deleteButton" -->
+        <button type="button" class="btn btn-primary" id="deleteButton">Xóa</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Form ẩn để gửi yêu cầu xóa -->
+<form method="POST" name="delete"></form>
+
+<script>
+  const exampleModal = document.getElementById('exampleModal');
+  const deleteForm = document.forms['delete']; // Lấy tham chiếu đến form
+
+  if (exampleModal) {
+    exampleModal.addEventListener('show.bs.modal', (event) => {
+      const button = event.relatedTarget;
+      const id = button.getAttribute('data-id');
+      console.log(id);
+
+      // Đặt giá trị data-id vào một trường input ẩn trong modal để sử dụng sau này.
+      const deleteButton = document.getElementById('deleteButton');
+      deleteButton.setAttribute('data-id', id);
+    });
+
+    // Thêm sự kiện lắng nghe cho nút "Xóa" trong modal.
+    exampleModal.addEventListener('click', (event) => {
+      if (event.target.id === 'deleteButton') {
+        const id = event.target.getAttribute('data-id');
+        // Đặt action của form để gửi yêu cầu xóa với phương thức DELETE.
+        deleteForm.action = '/courses/' + id + '?_method=DELETE';
+        deleteForm.submit();
+        console.log('Nút Xóa được nhấn cho id:', id);
+
+        // Thực hiện hành động xóa thực sự dựa trên ID đã chụp.
+        // Bạn có thể thực hiện cuộc gọi API hoặc kích hoạt một chức năng JavaScript để xóa dữ liệu.
+
+        // Đóng modal
+        const modal = bootstrap.Modal.getInstance(exampleModal);
+        modal.hide();
+      }
+    });
+  }
+</script>

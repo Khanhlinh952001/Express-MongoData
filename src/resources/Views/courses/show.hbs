@@ -1,0 +1,43 @@
+<div class="course-container">
+    <h1>Name : {{course.name}}</h1>
+    <img src="{{course.image}}" alt="{{course.slug}}">
+    <button>Level: {{course.level}}</button>
+    <p>Description: {{course.description}}</p>
+</div>
+
+<style>
+    /* CSS */
+    .course-container {
+        width: 300px; /* Đặt chiều rộng */
+        padding: 20px; /* Đặt khoảng cách giữa lề ngoài và nội dung */
+        border: 1px solid #ccc; /* Đặt viền */
+        background-color: #f9f9f9; /* Đặt màu nền */
+        text-align: center; /* Căn giữa nội dung */
+        margin: 0 auto; /* Canh giữa theo chiều ngang */
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Đổ bóng */
+        font-family: Arial, sans-serif; /* Đặt font chữ */
+    }
+
+    .course-container h1 {
+        font-size: 24px; /* Đặt kích thước font cho tiêu đề */
+        margin-bottom: 10px; /* Khoảng cách dưới tiêu đề */
+    }
+
+    .course-container img {
+        max-width: 100%; /* Đảm bảo hình ảnh không vượt quá phần tử cha */
+        height: auto; /* Đảm bảo tỷ lệ khung hình bảo toàn */
+        margin-bottom: 10px; /* Khoảng cách dưới hình ảnh */
+    }
+
+    .course-container button {
+        background-color: #007bff; /* Đặt màu nền nút */
+        color: #fff; /* Đặt màu chữ cho nút */
+        border: none; /* Loại bỏ viền nút */
+        padding: 10px 20px; /* Đặt khoảng cách nội dung nút */
+        cursor: pointer; /* Biến đổi con trỏ thành "hand" khi rê chuột vào nút */
+    }
+
+    .course-container button:hover {
+        background-color: #0056b3; /* Màu nền thay đổi khi rê chuột vào nút */
+    }
+</style>
